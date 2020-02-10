@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ja"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.10/css/mdb.min.css">
+    <link th:href="@{/css/base.css}" rel="stylesheet" type="text/css">
+    <title>Welcome</title>
+</head>
+<body>
+    <div id="app" class="container-fluid">
+        <header th:if="${successMessage != null}">
+            <p class="alert alert-info" role="alert" th:text="${successMessage}">successMessage</p>
+        </header>
+        <h1>Spring Security with Spring Boot 2.2 Demo Simple Application</h1>
+        <div class="row justify-content-left mt-4">
+            <div class="col-lg-4 col-sm-auto">
+                <div class="card">
+                    <h5 class="card-header indigo lighten-1 white-text text-center py-2">
+                        <strong sec:authorize="isAuthenticated()">認証済み</strong>
+                        <strong sec:authorize="!isAuthenticated()">未認証</strong>
+                    </h5>
+                    <div class="card-body p-1" sec:authorize="isAuthenticated()">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item"><strong>email : </strong><span th:text="${#authentication.name}">email</span></li>
+                            <li class="list-group-item"><strong>authorities : </strong><span th:text="${#authentication.principal.authorities}">authorities</span></li>
+                            <li class="list-group-item"><strong>username : </strong><span th:text="${#authentication.principal.username}">username</span></li>
+                            <li class="list-group-item"><strong>password : </strong><span th:text="${#authentication.principal.password}">pasword</span></li>
+                            <li class="list-group-item"><strong>enabled : </strong><span th:text="${#authentication.principal.enabled}">enabled</span></li>
+                            <li class="list-group-item"><strong>user.id : </strong><span th:text="${#authentication.principal.user.id}">user.id</span></li>
+                            <li class="list-group-item"><strong>user.name : </strong><span th:text="${#authentication.principal.user.name}">user.name</span></li>
+                        </ul>
+                        <div>
+                            <a class="btn cyan lighten-1 white-text m-1" th:href="@{/logout}">logout</a>
+                        </div>
+                    </div>
+                    <div class="card-body p-1" sec:authorize="!isAuthenticated()">
+                        <div>
+                            <a class="btn cyan lighten-1 white-text m-1" th:href="@{/login}">login</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-auto">
+                <div class="card">
+                    <h5 class="card-header indigo lighten-1 white-text text-center py-2">
+                        <strong>セッション</strong>
+                    </h5>
+                    <div class="card-body p-1">
+                        <ul class="list-group list-group-flush">
+                            <th:block th:if="${#session != null}">
+                            <li class="list-group-item">sessionId: <span th:text="${#session.id}"></span></li>
+                            <li class="list-group-item">lastAccessedTime: <span th:text="${#session.lastAccessedTime}"></span></li>
+                            <li class="list-group-item">maxInactiveInterval: <span th:text="${#session.maxInactiveInterval}"></span></li>
+                            </th:block>
+                            <li class="list-group-item" th:switch="${#request.isRequestedSessionIdFromCookie()}">
+                                RequestedSessionIdFromCookie :
+                                <span th:case="${true}" class="badge badge-info">yes</span>
+                                <span th:case="${false}">no</span>
+                            </li>
+                            <li class="list-group-item" th:switch="${#request.isRequestedSessionIdFromURL()}">
+                                RequestedSessionIdFromURL :
+                                <span th:case="${true}" class="badge badge-info">yes</span>
+                                <span th:case="${false}">no</span>
+                            </li>
+                            <li class="list-group-item" th:switch="${#request.isRequestedSessionIdValid()}">
+                                RequestedSessionIdValid :
+                                <span th:case="${true}" class="badge badge-info">yes</span>
+                                <span th:case="${false}">no</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-4 col-sm-auto">
+                <div class="card">
+                    <h5 class="card-header indigo lighten-1 white-text text-center py-2">
+                        <strong>コンテンツ</strong>
+                    </h5>
+                    <div class="card-body p-1">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <a th:href="@{/members/user}">user role contents</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a th:href="@{/members/admin}">admin role contents</a>
+                            </li>
+                            <li class="list-group-item">
+                                <a th:href="@{/members/}">any role contents</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-left mt-4">
+            <div class="col-lg-3 col-sm-auto">
+                <div class="card">
+                    <h5 class="card-header indigo lighten-1 white-text text-center py-2">
+                        <strong>アカウント登録</strong>
+                    </h5>
+                    <div class="card-body p-1">
+                        <form class="text-center" th:action="@{signup}" th:object="${signup}" method="POST">
+                            <div class="md-form">
+                                <input class="form-control" type="text" th:field="*{name}" />
+                                <label for="name">name</label>
+                            </div>
+                            <div class="md-form">
+                                <input class="form-control" type="text" th:field="*{email}" />
+                                <label for="email">email</label>
+                            </div>
+                            <div class="md-form">
+                                <input class="form-control" type="text" th:field="*{password}" />
+                                <label for="password">password</label>
+                            </div>
+                            <input class="btn indigo accent-4 white-text btn-block my-1" type="submit" value="register" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-9 col-sm-auto">
+                <div class="table-responsive text-nowrap card">
+                    <h5 class="card-header indigo lighten-1 white-text text-center py-2">
+                        <strong>アカウント一覧</strong>
+                    </h5>
+                    <table class="table card-body">
+                        <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Password</th>
+                            <th>Roles</th>
+                            <th>Enable</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr th:each="user : ${users}" th:object="${user}">
+                            <td th:text="*{id}">id</td>
+                            <td th:text="*{name}">name</td>
+                            <td th:text="*{email}">email</td>
+                            <td th:text="*{password}">password</td>
+                            <td th:text="*{roles}">roles</td>
+                            <td th:text="*{enable}">enable</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.4/umd/popper.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.8.10/js/mdb.min.js"></script>
+</body>
+</html>
