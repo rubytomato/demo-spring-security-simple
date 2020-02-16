@@ -23,7 +23,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     web
       .debug(false)
       .ignoring()
-      .antMatchers("/images/**", "/js/**", "/css/**")
+      .antMatchers("/js/**", "/css/**")
     ;
     // @formatter:on
   }
@@ -34,8 +34,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     http
       .authorizeRequests()
         .mvcMatchers("/", "/signup").permitAll()
-        .mvcMatchers("/members/user/**").hasRole("USER")
-        .mvcMatchers("/members/admin/**").hasRole("ADMIN")
+        .mvcMatchers("/members/user/**", "/images/user/**").hasRole("USER")
+        .mvcMatchers("/members/admin/**", "/images/admin/**").hasRole("ADMIN")
         .anyRequest().authenticated()
       .and()
       .formLogin()
