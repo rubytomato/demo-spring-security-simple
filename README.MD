@@ -6,14 +6,14 @@ Development environment
 * Spring Boot 2.2.4
 * Spring Security 5.2.1
 * H2
-* Gradle 6.0.1
+* Gradle 6.1.1
 
 ## Build & Run
 
 build
 
 ```
-gradlew clean build
+gradlew clean build --warning-mode all
 ```
 
 run
