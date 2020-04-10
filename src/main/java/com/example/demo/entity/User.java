@@ -17,7 +17,7 @@ import javax.persistence.Table;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString(exclude = { "email", "password" })
+@ToString(exclude = {"email", "password"})
 public class User {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -2,11 +2,11 @@
 
 Development environment
 
-* OpenJDK 13.0.2
-* Spring Boot 2.2.4
-* Spring Security 5.2.1
+* OpenJDK 14.0
+* Spring Boot 2.2.6
+* Spring Security 5.2.2
 * H2
-* Gradle 6.1.1
+* Gradle 6.3
 
 ## Build & Run
 

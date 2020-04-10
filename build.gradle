@@ -1,13 +1,13 @@
 plugins {
-    id 'org.springframework.boot' version '2.2.4.RELEASE'
+    id 'org.springframework.boot' version '2.2.6.RELEASE'
     id 'io.spring.dependency-management' version '1.0.9.RELEASE'
     id 'java'
 }
 
 group = 'com.example'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '13'
-targetCompatibility = '13'
+sourceCompatibility = '14'
+targetCompatibility = '14'
 archivesBaseName = 'demo'
 
 configurations {
