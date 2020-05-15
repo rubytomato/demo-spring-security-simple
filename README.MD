@@ -3,8 +3,8 @@
 Development environment
 
 * OpenJDK 14.0
-* Spring Boot 2.2.6
-* Spring Security 5.2.2
+* Spring Boot 2.2.7
+* Spring Security 5.2.4
 * H2
 * Gradle 6.3
 
